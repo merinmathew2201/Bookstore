@@ -10,8 +10,8 @@ function Footer() {
           <h1 className='text-xl font-bold mb-4'>ABOUT US</h1>
           <p className='text-justify'>BookStore is a simple and user-friendly platform where anyone can buy and sell books with ease. From discovering new reads to listing your own books, everything is designed to be quick, secure, and hassle-free. Our goal is to keep reading accessible and help every book find a new home while connecting a community of book lovers.</p>
         </div>
-        <div className='m-5'>
-          <h1 className='text-xl font-bold mb-4'>NEWSLETTTER</h1>
+        <div className='m-5 ms-10'>
+          <h1 className='text-xl font-bold mb-4'>NEWS LETTTER</h1>
           <p>Stay updated with our latest trends</p>
           <div className='flex my-5'>
             <input type="text" className="p-2 bg-white border border-gray-200 text-black w-80 placeholder-gray-600" placeholder='Email ID' />
@@ -19,18 +19,18 @@ function Footer() {
           </div>
         </div>
 
-        <div className="m-5">
-          <h1 className='text-xl font-bold mb-4'>Follow Us</h1>
-          <p className='mb-2'>Let us be social</p>
+        <div className="m-5 ms-10">
+          <h1 className='text-xl font-bold mb-4'>FOLLOW US</h1>
+          <p className='mb-4'>Let us be social</p>
           <div className='text-xl flex items-center'>
-            <FaInstagram className='me-2' />
-            <FaFacebookSquare className='me-2'/>
-            <FaXTwitter className='me-2' />
+            <FaInstagram className='me-4' />
+            <FaFacebookSquare className='me-4'/>
+            <FaXTwitter className='me-4' />
             <FaLinkedin />
           </div>
         </div>
       </div>
-      <h1 className='p-2  bg-black text-white flex justify-center items-center'>Copyright &copy; All rights reserved | This website is made with <FaHeart className='mx-2' /> by Luminar Technolab</h1>
+      <h1 className='p-2  bg-black text-white flex justify-center items-center'>Copyright &copy; 2025 All rights reserved | This website is made with <FaHeart className='mx-2' /> by Luminar Technolab</h1>
     </>
   )
 }
