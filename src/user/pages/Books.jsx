@@ -51,6 +51,30 @@ function Books() {
             <Link to={'/books/id/view'} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
           </div>
         </div>
+        <div className="shadow rounded p-3 m-4 md:my-0">
+          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
+          <div className='flex flex-col justify-center items-center mt-4'>
+            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
+            <p className='text-lg'>title</p>
+            <Link to={'/books/id/view'} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
+          </div>
+        </div>
+        <div className="shadow rounded p-3 m-4 md:my-0">
+          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
+          <div className='flex flex-col justify-center items-center mt-4'>
+            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
+            <p className='text-lg'>title</p>
+            <Link to={'/books/id/view'} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
+          </div>
+        </div>
+        <div className="shadow rounded p-3 m-4 md:my-0">
+          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
+          <div className='flex flex-col justify-center items-center mt-4'>
+            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
+            <p className='text-lg'>title</p>
+            <Link to={'/books/id/view'} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
+          </div>
+        </div>
         </div>
       </div>
 

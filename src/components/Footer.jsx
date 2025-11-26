@@ -10,7 +10,7 @@ function Footer() {
           <h1 className='text-xl font-bold mb-4'>ABOUT US</h1>
           <p className='text-justify'>BookStore is a simple and user-friendly platform where anyone can buy and sell books with ease. From discovering new reads to listing your own books, everything is designed to be quick, secure, and hassle-free. Our goal is to keep reading accessible and help every book find a new home while connecting a community of book lovers.</p>
         </div>
-        <div className='m-5 ms-10'>
+        <div className='m-5 md:ms-10'>
           <h1 className='text-xl font-bold mb-4'>NEWS LETTTER</h1>
           <p>Stay updated with our latest trends</p>
           <div className='flex my-5'>
@@ -19,7 +19,7 @@ function Footer() {
           </div>
         </div>
 
-        <div className="m-5 ms-10">
+        <div className="m-5 md:ms-10">
           <h1 className='text-xl font-bold mb-4'>FOLLOW US</h1>
           <p className='mb-4'>Let us be social</p>
           <div className='text-xl flex items-center'>
@@ -30,7 +30,7 @@ function Footer() {
           </div>
         </div>
       </div>
-      <h1 className='p-2  bg-black text-white flex justify-center items-center'>Copyright &copy; 2025 All rights reserved | This website is made with <FaHeart className='mx-2' /> by Luminar Technolab</h1>
+      <h1 className='p-2  bg-black text-white text-center'>Copyright &copy; 2025 All rights reserved | This website is made with 🤍 by Luminar Technolab</h1>
     </>
   )
 }
