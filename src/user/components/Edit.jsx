@@ -15,7 +15,7 @@ function Edit() {
         <div className="bg-white h-full w-90 z-50 fixed top-0 left-0">
           {/* offcanvas head */}
           <div className="bg-black text-white px-3 py-4 flex justify-between text-2xl">
-            <h1>Update user Profile</h1>
+            <h1>Update User Profile</h1>
             <FaX onClick={()=>setOffcanvas(false)}/>
           </div>
           {/* body */}
