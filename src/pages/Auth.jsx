@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FaEye, FaEyeSlash, FaUser } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
 
 function Auth({registerURL}) {
   // view password as text and as pswd when clicked on it
@@ -43,6 +44,17 @@ function Auth({registerURL}) {
       }
     }
     
+  }
+
+  const handleRegister = (e)=>{
+    e.preventDefault()
+    const {username,password,email} = userDetails
+    if(username && password && email){
+      // alert("api call")
+    }else{
+      toast.warning("Please fill the form completely")
+    }
+
   }
 
   return (
@@ -88,9 +100,9 @@ function Auth({registerURL}) {
             {/* btn for register/login */}
             <div className="text-center">
               {registerURL?
-              <button className='bg-green-700 p-2 w-full rounded'>Register</button>
+              <button onClick={handleRegister} disabled={invalidEmail||invalidPassword||invalidUserName} className='bg-green-700 p-2 w-full rounded'>Register</button>
               :
-              <button className='bg-green-700 p-2 w-full rounded'>Login</button>
+              <button disabled={invalidEmail||invalidPassword||invalidUserName} className='bg-green-700 p-2 w-full rounded'>Login</button>
               }
               
             </div>
@@ -107,6 +119,7 @@ function Auth({registerURL}) {
           
         </div>
       </div>
+      <ToastContainer position='top-center' autoClose={3000} theme='colored'/>
     </div>
   )
 }
