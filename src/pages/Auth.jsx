@@ -3,6 +3,8 @@ import { FaEye, FaEyeSlash, FaUser } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import { loginAPI, registerAPI } from '../services/allAPI'
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode'
 
 function Auth({registerURL}) {
   const navigate = useNavigate()
@@ -108,6 +110,24 @@ function Auth({registerURL}) {
       toast.warning("Please fill the form completely!!!")
     }
   }
+
+  const handleGoogleLogin = async (credentialResponse)=>{
+    console.log("Inside handleGoogleLogin");
+    // console.log(credentialResponse);
+    const decode = jwtDecode(credentialResponse.credential)
+    console.log(decode);
+    
+    
+    
+    // const {email,password} = userDetails
+    // if(email,password){
+      
+    // }else{
+    //   toast.warning("Please fill the form completely!!!")
+    // }
+  }
+
+
   return (
     <div className='w-full min-h-screen flex justify-center items-center bg-[url(/bg.avif)] bg-cover bg-center text-white'>
       <div className="p-10">
@@ -159,6 +179,23 @@ function Auth({registerURL}) {
               
             </div>
             {/* google authentication */}
+              {
+                !registerURL && 
+                <div className="my-5 text-center">
+                  <p>-----------------or-----------------</p>
+                  <div className="mt-2 flex justify-center items-center w-full">
+                    <GoogleLogin
+                      onSuccess={credentialResponse => {
+                        handleGoogleLogin(credentialResponse)
+                      }}
+                      onError={() => {
+                        console.log('Login Failed');
+                      }}
+                    />
+                  </div>
+
+                </div>
+              }
             <div className="my-5 text-center">
               {
                 registerURL?
