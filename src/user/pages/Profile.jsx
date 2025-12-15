@@ -26,7 +26,7 @@ function Profile() {
     <div style={{height:'200px'}} className='bg-black' >
     </div>
      <div style={{width:'230px',height:'230px',borderRadius:'50%', marginLeft:'70px',marginTop:'-130px' }} className='bg-white'>
-        <img style={{width:'200px',height:'200px',borderRadius:'75%', marginLeft:'15px',paddingTop:'20px'}} src={dp?dp:"https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80"} alt="profile" />
+        <img style={{width:'200px',height:'200px',borderRadius:'50%', marginLeft:'15px',paddingTop:'20px'}} src={dp?dp:"https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80"} alt="profile" />
       </div>
       <div className="md:flex justify-between md:px-20 px-2 mt-5">
         <div className="flex items-center">

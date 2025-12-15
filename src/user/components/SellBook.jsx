@@ -25,6 +25,14 @@ function SellBook() {
         demoPreviewList.push(url)
         setPreviewList(demoPreviewList)
     }
+
+    const handleResetForm = ()=>{
+        setBookDetails({
+        title:"",author:"",pages:"",imageURL:"",price:"",discountPrice:"",abstract:"",publisher:"",language:"",isbn:"",category:"",uploadImg:[]
+    })
+        setPreview("")
+        setPreviewList([])
+    }
     
     
   return (
@@ -91,7 +99,7 @@ function SellBook() {
             </div>
         </div>
         <div className="p-3 w-full flex md:justify-end justify-center mt-8">
-            <button className=" me-3 px-3 py-2 rounded bg-gray-600 text-white hover:bg-white hover:text-gray-600">RESET</button>
+            <button onClick={handleResetForm} className=" me-3 px-3 py-2 rounded bg-gray-600 text-white hover:bg-white hover:text-gray-600">RESET</button>
             <button className="px-3 py-2 rounded bg-blue-600 text-white hover:bg-white hover:text-blue-600">ADD BOOK</button>
         </div>
     </div>
