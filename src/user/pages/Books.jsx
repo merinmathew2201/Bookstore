@@ -3,17 +3,35 @@ import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaBars } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { getAllBooksPageAPI } from '../../services/allAPI'
 
 function Books() {
   const [toggle,setToggle] = useState(false)
   const [token,setToken] = useState("")
+  const [allBooks,setAllBooks] = useState([])
 
+  console.log(allBooks);
+  
   useEffect(()=>{
     if(sessionStorage.getItem("token")){
       const userToken = sessionStorage.getItem("token")
       setToken(userToken)
+      getAllBooks(userToken)
     }
   },[])
+
+  const getAllBooks = async (token)=>{
+    const reqHeader = {
+      "Authorization" : `Bearer ${token}`
+    }
+    const result = await getAllBooksPageAPI(reqHeader)
+    if(result.status == 200){
+      setAllBooks(result.data)
+    }else{
+      console.log(result);
+      
+    }
+  }
   return (
     <>
     <Header/>
@@ -53,38 +71,22 @@ function Books() {
       <div className="col-span-3">
         <div className="md:grid grid-cols-4 mt-5 md:mt-0">
           {/* duplicate book */}
-          <div className="shadow rounded p-3 m-4 md:my-0">
-          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
-          <div className='flex flex-col justify-center items-center mt-4'>
-            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
-            <p className='text-lg'>title</p>
-            <Link to={'/books/id/view'} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
-          </div>
-        </div>
-        <div className="shadow rounded p-3 m-4 md:my-0">
-          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
-          <div className='flex flex-col justify-center items-center mt-4'>
-            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
-            <p className='text-lg'>title</p>
-            <Link to={'/books/id/view'} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
-          </div>
-        </div>
-        <div className="shadow rounded p-3 m-4 md:my-0">
-          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
-          <div className='flex flex-col justify-center items-center mt-4'>
-            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
-            <p className='text-lg'>title</p>
-            <Link to={'/books/id/view'} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
-          </div>
-        </div>
-        <div className="shadow rounded p-3 m-4 md:my-0">
-          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
-          <div className='flex flex-col justify-center items-center mt-4'>
-            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
-            <p className='text-lg'>title</p>
-            <Link to={'/books/id/view'} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
-          </div>
-        </div>
+          {
+            allBooks?.length>0?
+            allBooks?.map(book=>(
+              <div key={book?._id} className="shadow rounded p-3 m-4 md:my-0">
+                <img width={'100%'} height={'300px'} src={book?.imageURL} alt="book" />
+                <div className='flex flex-col justify-center items-center mt-4 '>
+                  <h3 className='text-xl text-blue-700 font-bold'>{book?.author}</h3>
+                  <p className='text-lg'>{book?.title.slice(0,9)}...</p>
+                  <Link to={`/books/${book?._id}/view`} className='bg-blue-800 p-2 text-white mt-2'>View Book</Link>
+                </div>
+              </div>
+            ))
+            :
+            <div className="my-5 text-center text-2xl">Loading....</div>
+          }
+        
         </div>
       </div>
 

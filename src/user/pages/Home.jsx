@@ -1,14 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaSearch } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
+import {getHomePageBooksAPI} from '../../services/allAPI'
 
 
 function Home() {
   const navigate = useNavigate()
   const [searchKey,setSearchKey] = useState("")
+  const [homeBooks,setHomeBooks] = useState([])
+
+  console.log(homeBooks);
+    
+  useEffect(()=>{
+    getHomeBooks()
+  },[])
+
+  const getHomeBooks = async ()=>{
+    const result = await getHomePageBooksAPI()
+    if(result.status==200){
+      setHomeBooks(result.data)
+    }else{
+      console.log(result);
+      
+    }
+  }
 
   const handleSearch = ()=>{
     if(!searchKey){
@@ -47,38 +65,22 @@ function Home() {
       <h1 className='text-4xl my-3'>Explore Our Latest Collection</h1>
       <div className="md:grid grid-cols-4 w-full my-10">
         {/* duplicated book card */}
-        <div className="shadow rounded p-3 m-4 md:my-0">
-          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
-          <div className='flex flex-col justify-center items-center mt-4'>
-            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
-            <p className='text-lg'>title</p>
-            <p>$ 12</p>
-          </div>
-        </div>
-        <div className="shadow rounded p-3 m-4 md:my-0">
-          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
-          <div className='flex flex-col justify-center items-center mt-4'>
-            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
-            <p className='text-lg'>title</p>
-            <p>$ 12</p>
-          </div>
-        </div>
-        <div className="shadow rounded p-3  m-4 md:my-0">
-          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
-          <div className='flex flex-col justify-center items-center mt-4'>
-            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
-            <p className='text-lg'>title</p>
-            <p>$ 12</p>
-          </div>
-        </div>
-        <div className="shadow rounded p-3  m-4 md:my-0">
-          <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
-          <div className='flex flex-col justify-center items-center mt-4'>
-            <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
-            <p className='text-lg'>title</p>
-            <p>$ 12</p>
-          </div>
-        </div>
+        {
+          homeBooks?.length>0?
+            homeBooks?.map(book=>(
+              <div key={book?._id} className="shadow rounded p-3 m-4 md:my-0">
+                <img width={'100%'} height={'300px'} src={book?.imageURL} alt="book" />
+                <div className='flex flex-col justify-center items-center mt-4'>
+                  <h3 className='text-xl text-blue-700 font-bold'>{book?.author}</h3>
+                  <p className='text-lg'>{book?.title}</p>
+                  <p>$ {book?.discountPrice}</p>
+                </div>
+              </div>
+            ))
+          :
+          <p className="font-bold">Loading....</p>
+        }
+        
       </div>
       <div className="text-center my-10">
         <Link to={'/books'} className='bg-blue-900 p-3 text-white font-black rounded'> Explore More....</Link>
