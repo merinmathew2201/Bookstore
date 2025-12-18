@@ -29,8 +29,8 @@ export const getHomePageBooksAPI = async ()=>{
 } 
 
 // all-books : called by books component when page loads
-export const getAllBooksPageAPI = async (reqHeader)=>{
-    return await commonAPI ("GET",`${serverURL}/all-books`,{},reqHeader)
+export const getAllBooksPageAPI = async (reqHeader,searchKey)=>{
+    return await commonAPI ("GET",`${serverURL}/all-books?search=${searchKey}`,{},reqHeader)
 } 
 
 // user-profile-books : called by bookstatus component when page loads
