@@ -4,6 +4,7 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaCircleUser } from "react-icons/fa6";
 import { Link, useNavigate } from 'react-router-dom';
+import serverURL from '../../services/serverURL';
 
 function Header() {
   const navigate = useNavigate()
@@ -53,7 +54,7 @@ function Header() {
           :
           <div>
             <button onClick={()=>setDropdown(!dropdown)} className="shadow-sm rounded ms-5 p-2 hover:bg-gray-100">
-              <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src={dp?dp:"https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small/user-icon-on-transparent-background-free-png.png"} alt="profile" />
+              <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src={dp==""?"https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80":dp.startsWith("https://lh3.googleusercontent.com/")?dp:`${serverURL}/uploads/${dp}`}  alt="profile" />
             </button>
             {/* dropdown menu */}
            {
@@ -80,7 +81,7 @@ function Header() {
           :
           <div>
             <button onClick={()=>setDropdown(!dropdown)} className="shadow-sm rounded ms-5 p-2 hover:bg-gray-100">
-              <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src={dp?dp:"https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small/user-icon-on-transparent-background-free-png.png"} alt="profile" />
+              <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src={dp==""?"https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80":dp.startsWith("https://lh3.googleusercontent.com/")?dp:`${serverURL}/uploads/${dp}`}  alt="profile" />
             </button>
             {/* dropdown menu */}
            {

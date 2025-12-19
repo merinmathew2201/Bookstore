@@ -1,9 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaPen } from 'react-icons/fa'
 import { FaX } from 'react-icons/fa6'
+import serverURL from '../../services/serverURL'
 
 function Edit() {
   const [offcanvas,setOffcanvas] = useState(false)
+  const [userDetails,setUserDetails] = useState({
+    username:"",password:"",cpassword:"",picture:"",role:"",bio:""
+  })
+  const [existingUserPicture,setExitingUserPicture] = useState("")
+  const [preview,setPreview] = useState("")
+  console.log(userDetails);
+
+  useEffect(()=>{
+    if(sessionStorage.getItem("user")){
+      const user = JSON.parse(sessionStorage.getItem("user"))
+      setUserDetails({...userDetails,username:user.username,role:user.role,bio:user.bio})
+      setExitingUserPicture(user.picture)
+    }
+  },[])
+
+  const handlePictureUpdate = (e)=>{
+    setUserDetails({...userDetails,picture:e.target.files[0]})
+    const url = URL.createObjectURL(e.target.files[0])
+    setPreview(url)
+  }
+
+  const handleResetForm = ()=>{
+    const user = JSON.parse(sessionStorage.getItem("user"))
+    setUserDetails({username:user.username,role:user.role,bio:user.bio,password:"",cpassword:""})
+    setExitingUserPicture(user.picture)
+    setPreview("")
+  }
+
   return (
     <div>
       <button onClick={()=>setOffcanvas(true)} className="text-blue-600 border rounded p-3 border-blue-600 flex items-center hover:bg-blue-600 hover:text-white"><FaPen className='me-2'/>Edit</button>
@@ -21,24 +50,33 @@ function Edit() {
           {/* body */}
           <div className="flex justify-center items-center flex-col my-5">
             <label htmlFor="userProfile">
-              <input type="file" id='userProfile' hidden />
-              <img className='z-52' style={{width:'150px',height:'150px',borderRadius:"70%"}} src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80" alt="profile picture" />
+              <input onChange={e=>handlePictureUpdate(e)} type="file" id='userProfile' hidden />
+              
+              {
+                existingUserPicture==""?
+                <img className='z-52' style={{width:'150px',height:'150px',borderRadius:"70%"}} src={preview?preview:"https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80"} alt="profile picture" />
+                :
+                existingUserPicture.startsWith("https://lh3.googleusercontent.com/" )?
+                <img className='z-52' style={{width:'150px',height:'150px',borderRadius:"70%"}} src={preview?preview:existingUserPicture} alt="profile picture" />
+                :
+                <img className='z-52' style={{width:'150px',height:'150px',borderRadius:"70%"}} src={preview?preview:`${serverURL}/uploads/${existingUserPicture}`} alt="profile picture" />
+              }
               <button className="bg-blue-300 z-53 fixed text-white py-2 px-3 rounded" style={{marginLeft:'75px',marginTop:'-20px'}}><FaPen/></button>
             </label>
             <div className="mt-10 mb-3 w-full px-5">
-              <input type="text" placeholder='Username' className="w-full border border-gray-300 p-2 rounded" />
+              <input value={userDetails.username} onChange={e=>setUserDetails({...userDetails,username:e.target.value})} type="text" placeholder='Username' className="w-full border border-gray-300 p-2 rounded" />
             </div>
             <div className=" mb-3 w-full px-5">
-              <input type="password" placeholder='New Password' className="w-full border border-gray-300 p-2 rounded" />
+              <input value={userDetails.password} onChange={e=>setUserDetails({...userDetails,password:e.target.value})} type="password" placeholder='New Password' className="w-full border border-gray-300 p-2 rounded" />
             </div>
             <div className=" mb-3 w-full px-5">
-              <input type="password" placeholder='Confirm Password' className="w-full border border-gray-300 p-2 rounded" />
+              <input value={userDetails.cpassword} onChange={e=>setUserDetails({...userDetails,cpassword:e.target.value})} type="password" placeholder='Confirm Password' className="w-full border border-gray-300 p-2 rounded" />
             </div>
             <div className=" mb-3 w-full px-5">
-              <textarea type="text" placeholder=' Bio' className="w-full border border-gray-300 p-2 rounded" />
+              <textarea value={userDetails.bio} onChange={e=>setUserDetails({...userDetails,bio:e.target.value})} type="text" placeholder=' Bio' className="w-full border border-gray-300 p-2 rounded" />
             </div>
             <div className="flex justify-end w-full px-5 mt-5">
-              <button className="bg-yellow-600 text-white px-3 py-2 rounded">RESET</button>
+              <button onClick={handleResetForm} className="bg-yellow-600 text-white px-3 py-2 rounded">RESET</button>
               <button className="bg-green-600 ms-5 text-white px-3 py-2 rounded">UPDATE</button>
             </div>
           </div>
