@@ -38,7 +38,7 @@ export const getAllUserProfileBooksPageAPI = async (reqHeader)=>{
     return await commonAPI ("GET",`${serverURL}/user-books`,{},reqHeader)
 } 
 
-// user-bought-books : called by purshace component when page loads
+// user-bought-books : called by purchase component when page loads
 export const getAllUserBoughtBooksPageAPI = async (reqHeader)=>{
     return await commonAPI ("GET",`${serverURL}/user-books/bought`,{},reqHeader)
 } 
@@ -47,3 +47,18 @@ export const getAllUserBoughtBooksPageAPI = async (reqHeader)=>{
 export const editUserAPI = async (id,reqBody,reqHeader)=>{
     return await commonAPI ("PUT",`${serverURL}/user/${id}/edit`,reqBody,reqHeader)
 } 
+
+// /books/:id/view - called by view component when page loads
+export const getSingleBookDetail = async (id,reqHeader)=>{
+    return await commonAPI ("GET",`${serverURL}/books/${id}/view`,{},reqHeader)
+}
+
+// /books/all - called by admincollection when page loads
+export const getAllAdminBooksAPI = async (reqHeader)=>{
+    return await commonAPI ("GET",`${serverURL}/books/all`,{},reqHeader)
+}
+
+// /users/all -called by admincollection when page loads
+export const getAllUsersAPI = async (reqHeader)=>{
+    return await commonAPI ("GET",`${serverURL}/users/all`,{},reqHeader)
+}

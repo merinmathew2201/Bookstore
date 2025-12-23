@@ -96,7 +96,7 @@ function Books() {
           {
             allBooks?.length>0?
             allBooks?.map(book=>(
-              <div key={book?._id} className="shadow rounded p-3 m-4 md:my-0">
+              <div key={book?._id} className="shadow rounded p-3 m-4 md:mb-2" hidden={book?.status=="pending" || book?.status=="sold"}>
                 <img width={'100%'} height={'300px'} src={book?.imageURL} alt="book" />
                 <div className='flex flex-col justify-center items-center mt-4 '>
                   <h3 className='text-xl text-blue-700 font-bold'>{book?.author}</h3>

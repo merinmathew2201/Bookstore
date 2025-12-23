@@ -1,10 +1,51 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminHeader from '../components/AdminHeader'
 import Footer from '../../components/Footer'
 import AdminSidebar from '../components/AdminSidebar'
+import { getAllAdminBooksAPI, getAllUsersAPI } from '../../services/allAPI'
+import serverURL from '../../services/serverURL'
 
 function AdminCollection() {
   const [tab,settab] = useState(1)
+  const [allBooks,setAllBooks] = useState([])
+  const [allUsers,setAllUsers] = useState([])
+
+  console.log(allUsers);
+  
+  useEffect(()=>{
+    const token = sessionStorage.getItem("token")
+    if(token){
+      if(tab==1){
+        getAllBooks(token)
+      }else{
+        getAllUsers(token)
+      }
+    }
+  },[tab])
+
+  const getAllBooks = async (token)=>{
+    const reqHeader = {
+      "Authorization" : `Bearer ${token}`
+    }
+    const result = await getAllAdminBooksAPI(reqHeader)
+    if(result.status == 200){
+      setAllBooks(result.data)
+    }else{
+      console.log(result);
+    }
+  }
+
+  const getAllUsers = async (token)=>{
+    const reqHeader = {
+      "Authorization" : `Bearer ${token}`
+    }
+    const result = await getAllUsersAPI(reqHeader)
+    if(result.status == 200){
+      setAllUsers(result.data)
+    }else{
+      console.log(result);
+    }
+  }
   return (
     <>
     <AdminHeader/>
@@ -21,32 +62,48 @@ function AdminCollection() {
         {tab==1 &&
         <div className='md:grid grid-cols-4 w-full my-5'>
             {/* duplicated book card */}
-            <div className="shadow rounded p-3 m-6 md:my-0">
-              <img width={'100%'} height={'300px'} src="https://res.cloudinary.com/bloomsbury-atlas/image/upload/w_360,c_scale,dpr_1.5/jackets/9781408855959.jpg" alt="book" />
-              <div className='flex flex-col justify-center items-center mt-4'>
-                <h3 className='text-xl text-blue-700 font-bold'>Author</h3>
-                <p className='text-lg'>title</p>
-                <p>$ 12</p>
-                <button className="bg-green-600 text-white p-2 mt-2">APPROVE</button>
-              </div>
-            </div>
+            {
+            allBooks?.length>0?
+              allBooks?.map(book=>(
+                <div key={book?._id} className="shadow rounded p-3 m-6 md:my-0">
+                  <img width={'100%'} height={'300px'} src={book?.imageURL} alt="book" />
+                  <div className='flex flex-col justify-center items-center mt-4'>
+                    <h3 className='text-xl text-blue-700 font-bold'>{book?.author}</h3>
+                    <p className='text-lg'>{book?.title}</p>
+                    <p>$ {book?.discountPrice}</p>
+                    <button className="bg-green-600 text-white p-2 mt-2">APPROVE</button>
+                  </div>
+                </div>
+              ))
+            :
+            <p>Loading....</p>}
         </div>
         }
           
         {
           tab==2 && 
           <div className='md:grid grid-cols-3 w-full my-5'>
-            <div className="rounded bg-gray-200 p-2 m-5">
-              <p className='text-red-600 font-bold text-md'>ID:</p>
-              <div className="flex items-center mt-3">
-                <img style={{width:'80px', height:'80px',borderRadius:'50%'}} src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740&q=80" alt="profile" />
-                <div className="flex flex-col ml-3 w-full">
-                  <h4 className="text-blue-600 font-bold text-lg">username</h4>
-                  <p>email</p>
-                </div>
+            {allUsers?.length>0?
+              allUsers?.map(user=>(
+                <div key={user?._id} className="rounded bg-gray-200 p-2 m-5">
+                  <p className='text-red-600 font-bold text-md'>ID:{user?._id}</p>
+                  <div className="flex items-center mt-3">
+                    {
+                      user?.picture?
+                      <img style={{width:'80px', height:'80px',borderRadius:'50%'}} src={user?.picture.startsWith("https://lh3.googleusercontent.com/")?user?.picture:`${serverURL}/uploads/${user?.picture}`} alt="profile" />
+                      :
+                      <img style={{width:'80px', height:'80px',borderRadius:'50%'}} src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid&w=740&q=80" alt="profile" />
+                    }
+                    <div className="flex flex-col ml-3 w-full">
+                      <h4 className="text-blue-600 font-bold text-lg">{user?.username}</h4>
+                      <p>{user?.email}</p>
+                    </div>
 
-              </div>
-            </div>
+                  </div>
+                </div>
+              ))
+            :
+            <p>Loading....</p>}
           </div>
         }
       </div>

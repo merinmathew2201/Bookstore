@@ -2,20 +2,27 @@ import React, { useEffect, useState } from 'react'
 import { FaPen } from 'react-icons/fa'
 import { FaX } from 'react-icons/fa6'
 import serverURL from '../../services/serverURL'
+import { toast, ToastContainer } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import { editUserAPI } from '../../services/allAPI'
+
 
 function Edit() {
+  const navigate = useNavigate()
   const [offcanvas,setOffcanvas] = useState(false)
   const [userDetails,setUserDetails] = useState({
-    username:"",password:"",cpassword:"",picture:"",role:"",bio:""
+    username:"",password:"",cpassword:"",picture:"",role:"",bio:"",id:""
   })
   const [existingUserPicture,setExitingUserPicture] = useState("")
   const [preview,setPreview] = useState("")
+  const [pswdMatch,setPswdMatch] = useState(true)
+
   console.log(userDetails);
 
   useEffect(()=>{
     if(sessionStorage.getItem("user")){
       const user = JSON.parse(sessionStorage.getItem("user"))
-      setUserDetails({...userDetails,username:user.username,role:user.role,bio:user.bio})
+      setUserDetails({...userDetails,username:user.username,role:user.role,bio:user.bio,id:user._id})
       setExitingUserPicture(user.picture)
     }
   },[])
@@ -31,6 +38,49 @@ function Edit() {
     setUserDetails({username:user.username,role:user.role,bio:user.bio,password:"",cpassword:""})
     setExitingUserPicture(user.picture)
     setPreview("")
+  }
+
+  const checkPasswordMatch = (data)=>{
+    setUserDetails({...userDetails,cpassword:data})
+    userDetails.password == data? setPswdMatch(true):setPswdMatch(false)
+  }
+
+  const handleUpdateUser = async ()=>{
+    const {username,password,cpassword,bio,id,picture} = userDetails
+    if(!username || !password || !cpassword || !bio){
+      toast.info("Please fill the form completely")
+    }else if(pswdMatch){
+      
+      const token = sessionStorage.getItem("token")
+      if(token){
+        const reqHeader = {
+          "Authorization" : `Bearer ${token}`
+        }
+        const reqBody = new FormData()
+        for(let key in userDetails){
+          if(key != "picture"){
+            reqBody.append(key,userDetails[key])
+          }else{
+            preview? reqBody.append("picture",picture) : reqBody.append("picture",existingUserPicture)
+          }
+        }
+        // api call
+        const result = await editUserAPI(id,reqBody,reqHeader)
+        if(result.status == 200){
+          toast.success("Profile Updated Successfully..")
+          setTimeout(() => {
+            sessionStorage.clear()
+            navigate('/login')
+          }, 2000);
+        }else{
+          console.log(result);
+          toast.error("Something went wrong!!!")
+        }
+
+      }
+    }else{
+      toast.warning("Operation failed!!! Password Mismatch")
+    }
   }
 
   return (
@@ -70,19 +120,23 @@ function Edit() {
               <input value={userDetails.password} onChange={e=>setUserDetails({...userDetails,password:e.target.value})} type="password" placeholder='New Password' className="w-full border border-gray-300 p-2 rounded" />
             </div>
             <div className=" mb-3 w-full px-5">
-              <input value={userDetails.cpassword} onChange={e=>setUserDetails({...userDetails,cpassword:e.target.value})} type="password" placeholder='Confirm Password' className="w-full border border-gray-300 p-2 rounded" />
+              <input value={userDetails.cpassword} onChange={e=>checkPasswordMatch(e.target.value)} type="password" placeholder='Confirm Password' className="w-full border border-gray-300 p-2 rounded" />
             </div>
+            {!pswdMatch && <div className=" mb-3 w-full px-5 text-xs text-red-700 font-bold">
+              Confirm Password must be match with new Password
+            </div>}
             <div className=" mb-3 w-full px-5">
               <textarea value={userDetails.bio} onChange={e=>setUserDetails({...userDetails,bio:e.target.value})} type="text" placeholder=' Bio' className="w-full border border-gray-300 p-2 rounded" />
             </div>
             <div className="flex justify-end w-full px-5 mt-5">
               <button onClick={handleResetForm} className="bg-yellow-600 text-white px-3 py-2 rounded">RESET</button>
-              <button className="bg-green-600 ms-5 text-white px-3 py-2 rounded">UPDATE</button>
+              <button onClick={handleUpdateUser} className="bg-green-600 ms-5 text-white px-3 py-2 rounded">UPDATE</button>
             </div>
           </div>
         </div>
       </div>
       }
+      <ToastContainer position='top-center' autoClose={3000} theme='colored'/>
     </div>
   )
 }
