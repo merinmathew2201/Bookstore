@@ -1,7 +1,14 @@
 import React from 'react'
 import { IoIosLogOut } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
 
 function AdminHeader() {
+  const navigate = useNavigate()
+
+  const logout = ()=>{
+    sessionStorage.clear()
+    navigate('/')
+  }
   return (
     <>
       <div className='flex justify-between items-center p-3 md:px-20'>
@@ -11,7 +18,7 @@ function AdminHeader() {
           <h1 className='text-2xl font-bold ms-2'>BOOKSTORE</h1>
         </div>
         {/* logout */}
-        <button className="bg-black px-3 py-2 text-white rounded hover:border hover:text-black hover:bg-white flex items-center">LOGOUT <IoIosLogOut className='ms-1' /></button>
+        <button onClick={logout} className="bg-black px-3 py-2 text-white rounded hover:border hover:text-black hover:bg-white flex items-center">LOGOUT <IoIosLogOut className='ms-1' /></button>
       </div>
       {/* marquue */}
         <div className="w-full p-3 bg-black text-white">

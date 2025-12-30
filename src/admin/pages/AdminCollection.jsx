@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react'
 import AdminHeader from '../components/AdminHeader'
 import Footer from '../../components/Footer'
 import AdminSidebar from '../components/AdminSidebar'
-import { getAllAdminBooksAPI, getAllUsersAPI } from '../../services/allAPI'
+import { getAllAdminBooksAPI, getAllUsersAPI, updateBookStatusAPI } from '../../services/allAPI'
 import serverURL from '../../services/serverURL'
+import { toast, ToastContainer } from 'react-toastify'
+
 
 function AdminCollection() {
   const [tab,settab] = useState(1)
   const [allBooks,setAllBooks] = useState([])
   const [allUsers,setAllUsers] = useState([])
 
-  console.log(allUsers);
+  console.log(allBooks);
   
   useEffect(()=>{
     const token = sessionStorage.getItem("token")
@@ -46,6 +48,21 @@ function AdminCollection() {
       console.log(result);
     }
   }
+
+  const updateBookStatus = async (bookId)=>{
+    const token = sessionStorage.getItem('token')
+    if(token){
+      const reqHeader = {
+      "Authorization" : `Bearer ${token}`
+    }
+    const result = await updateBookStatusAPI(bookId,reqHeader)
+    if(result.status == 200){
+      toast.success("Book Approved!!!!")
+      getAllBooks(token)
+    }
+    }
+  }
+
   return (
     <>
     <AdminHeader/>
@@ -71,7 +88,12 @@ function AdminCollection() {
                     <h3 className='text-xl text-blue-700 font-bold'>{book?.author}</h3>
                     <p className='text-lg'>{book?.title}</p>
                     <p>$ {book?.discountPrice}</p>
-                    <button className="bg-green-600 text-white p-2 mt-2">APPROVE</button>
+                    {book?.status!="approved"?
+                    <button onClick={()=>updateBookStatus(book?._id)} className="bg-green-600 text-white p-2 mt-2">APPROVE</button>
+                  :
+                  <img width={'50px'} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Sign-check-icon.png/960px-Sign-check-icon.png" alt="checkmark" />
+                  }
+                  
                   </div>
                 </div>
               ))
@@ -107,6 +129,7 @@ function AdminCollection() {
           </div>
         }
       </div>
+      <ToastContainer position='top-center' autoClose={3000} theme='colored'/>
     </div>
     <Footer/>
     </>
