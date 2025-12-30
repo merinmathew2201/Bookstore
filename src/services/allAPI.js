@@ -68,7 +68,7 @@ export const updateBookStatusAPI = async (id,reqHeader)=>{
     return await commonAPI ("PUT",`${serverURL}/books/${id}/update`,{},reqHeader)
 }
 
-// /admin/:id/edit -put request by adminprofile component when update btn is clicked
-export const editAdminAPI = async (id,reqBody,reqHeader)=>{
-    return await commonAPI ("PUT",`${serverURL}/admin/${id}/edit`,reqBody,reqHeader)
+// /books/:id/ delete request by bookstatus whwn delete btn clicked
+export const removeBookAPI = async (id,reqHeader)=>{
+    return await commonAPI ("DELETE",`${serverURL}/books/${id}`,{},reqHeader)
 }

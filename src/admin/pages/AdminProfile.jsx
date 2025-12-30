@@ -5,7 +5,7 @@ import AdminSidebar from '../components/AdminSidebar'
 import { FaPen } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
-import { editAdminAPI } from '../../services/allAPI'
+import { editUserAPI } from '../../services/allAPI'
 import serverURL from '../../services/serverURL'
 
 
@@ -34,9 +34,10 @@ function AdminProfile() {
 
   const handleResetForm = ()=>{
     const user = JSON.parse(sessionStorage.getItem("user"))
-    setUserDetails({username:user.username,role:user.role,bio:user.bio,password:"",cpassword:""})
+    setUserDetails({username:user.username,role:user.role,bio:user.bio,password:"",cpassword:"",id:user._id})
     setExitingUserPicture(user.picture)
     setPreview("")
+    setPswdMatch(true)
   }
 
   const checkPasswordMatch = (data)=>{
@@ -60,11 +61,11 @@ function AdminProfile() {
             if(key != "picture"){
               reqBody.append(key,userDetails[key])
             }else{
-              preview? reqBody.append("picture",picture) : reqBody.append("picture",existingUserPicture)
+              preview? reqBody.append("picture",userDetails.picture) : reqBody.append("picture",existingUserPicture)
             }
           }
           // api call
-          const result = await editAdminAPI(id,reqBody,reqHeader)
+          const result = await editUserAPI(id,reqBody,reqHeader)
           if(result.status == 200){
             toast.success("Profile Updated Successfully..")
             setTimeout(() => {

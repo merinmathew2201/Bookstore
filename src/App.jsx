@@ -16,6 +16,8 @@ import AdminProfile from './admin/pages/AdminProfile'
 
 import PreLoader from './components/PreLoader'
 import { useState } from 'react'
+import PaymentSuccess from './user/pages/PaymentSuccess'
+import PaymentError from './user/pages/PaymentError'
 
 function App() {
   const [loader,setLoader] = useState(true)
@@ -34,6 +36,8 @@ function App() {
 
         <Route path='/user/profile' element={<Profile/>}/>
         <Route path='/books/:id/view' element={<View/>}/>
+        <Route path='/payment-success' element={<PaymentSuccess/>}/>
+        <Route path='/payment-error' element={<PaymentError/>}/>
 
         <Route path='/admin/home' element={<AdminHome/>}/>
         <Route path='/admin/collections' element={<AdminCollection/>}/>

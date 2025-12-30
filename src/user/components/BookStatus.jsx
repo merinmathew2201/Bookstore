@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getAllUserProfileBooksPageAPI } from '../../services/allAPI';
+import { getAllUserProfileBooksPageAPI, removeBookAPI } from '../../services/allAPI';
 
 function BookStatus() {
     const [allBooks, setAllBooks] = useState([])
@@ -18,6 +18,22 @@ function BookStatus() {
             const result = await getAllUserProfileBooksPageAPI(reqHeader)
             if (result.status == 200) {
                 setAllBooks(result.data)
+            } else {
+                console.log(result);
+
+            }
+        }
+    }
+
+    const removeBook = async (id)=>{
+        const token = sessionStorage.getItem("token")
+        if (token) {
+            const reqHeader = {
+                "Authorization": `Bearer ${token}`
+            }
+            const result = await removeBookAPI(id,reqHeader)
+            if (result.status == 200) {
+                getAllUserProfileBooks()
             } else {
                 console.log(result);
 
@@ -56,7 +72,7 @@ function BookStatus() {
                                 <div className="px-4 mt-4 md:mt-0">
                                 <img className='w-full' src={book?.imageURL} alt="book" />
                                 <div className="mt-4 flex justify-end">
-                                    <button className="bg-red-600 text-white p-2 rounded">Delete</button>
+                                    <button onClick={()=>removeBook(book?._id)} className="bg-red-600 text-white p-2 rounded">Delete</button>
                                 </div>
                             </div>
                             </div>
