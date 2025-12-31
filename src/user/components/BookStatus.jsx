@@ -48,7 +48,7 @@ function BookStatus() {
             {
                 allBooks?.length > 0 ?
                     allBooks.map(book => (
-                        <div key={book?._id} className="p-5 roundedmt-4 bg-gray-100">
+                        <div key={book?._id} className="p-5 rounded mt-4 bg-gray-100">
 
                             <div className='md:grid grid-cols-[3fr_1fr]'>
                                 <div className="px-4">

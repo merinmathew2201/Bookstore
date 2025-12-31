@@ -72,3 +72,8 @@ export const updateBookStatusAPI = async (id,reqHeader)=>{
 export const removeBookAPI = async (id,reqHeader)=>{
     return await commonAPI ("DELETE",`${serverURL}/books/${id}`,{},reqHeader)
 }
+
+// /books/:id/buy : Put request by view when buy btn is clicked
+export const bookPaymentAPI = async (id,reqHeader)=>{
+    return await commonAPI ("PUT",`${serverURL}/books/${id}/buy`,{},reqHeader)
+}

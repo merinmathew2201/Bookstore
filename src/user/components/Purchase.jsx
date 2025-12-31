@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { getAllUserBoughtBooksPageAPI } from '../../services/allAPI';
 
 function Purchase() {
     const [allBooks,setAllBooks] = useState([])
@@ -14,7 +15,7 @@ function Purchase() {
             const reqHeader = {
                 "Authorization" : `Bearer ${token}`
             }
-            const result = await getAllUserBoughtBooks(reqHeader)
+            const result = await getAllUserBoughtBooksPageAPI(reqHeader)
             if(result.status == 200){
                 setAllBooks(result.data)
             }else{
@@ -38,7 +39,7 @@ function Purchase() {
                             <h3 className="text-lg text-blue-600">$ {book?.discountPrice}</h3>
                             <p className="text-justify">{book?.abstract}</p>
                             <div className="flex mt-3">
-                                <img style={{width:'100px',height:'80px',borderRadius:'50%'}} src="https://thumbs.dreamstime.com/b/purchase-stamp-round-sign-label-transparent-background-352589731.jpg" alt="purchase" />
+                                <img style={{width:'100px',height:'80px',borderRadius:'50%'}} src="https://static.vecteezy.com/system/resources/thumbnails/023/629/827/small/web-button-icon-purchase-button-free-png.png" alt="purchase" />
                             </div>
                         </div>
                         <div className="px-4 mt-4 md:mt-0">
